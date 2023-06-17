@@ -1,3 +1,6 @@
-header {
-  background-color: hsla(160, 100%, 37%, 1);
+:root {
+  --primary-color: #41b883;
+  --secondary-color: #34495e;
+  --accent-color: #0000FF;
+  --white:#fafafa;
 }
