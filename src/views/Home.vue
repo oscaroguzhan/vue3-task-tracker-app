@@ -1,10 +1,35 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { uid } from 'uid'
 import CreateTodo from '../components/CreateTodo.vue';
 import TodoItem from '../components/TodoItem.vue';
 import { Icon } from '@iconify/vue';
+
 const todoList = ref([]);
+/* watch function watch the reactive data 
+in my case todoList. watch takes few parameter 
+first the reactive data we want to watch 
+second call back function that we want to execute each time reactive data changes 
+and additionally we set deep to true to deep comparison for each nested property of changes
+keep in mind deep can be computationally expensive for large object with multiple nested properties. 
+It is ok for this simple project*/
+watch(todoList, () => {
+  saveDataToLocalStorage();
+}, {
+  deep: true,
+})
+const getDataFromLocalStorage = () => {
+  const savedTodoList = JSON.parse(localStorage.getItem('todoList'));
+  if(savedTodoList) {
+    todoList.value = savedTodoList;
+  }
+};
+getDataFromLocalStorage();
+const saveDataToLocalStorage = () => {
+  // keep in mind with setItem method key and value parameter must to be string
+  localStorage.setItem('todoList', JSON.stringify(todoList.value))
+};
+
 const createTodo = (todo) => {
   todoList.value.push({
     id: uid(),
@@ -16,21 +41,25 @@ const createTodo = (todo) => {
 // keep in mind use value on script tag when you have a reactive data and pass index as parameter to pick the todo that we are interested
 const onToggleCompleted = (indexPos) => {
   todoList.value[indexPos].isCompleted = !todoList.value[indexPos].isCompleted;
+ 
 };
 const onEditTodo = (indexPos) => {
   todoList.value[indexPos].isEditing =!todoList.value[indexPos].isEditing;
+  
 };
 const onUpdateTodo = (updatedTodo, todoPos) => {
   todoList.value[todoPos].todo = updatedTodo;
+  
 };
-const onDeleteTodo = (todoPos) => {
-  todoList.value.splice(todoPos, 1);
-console.log(todoList.value);
-}
-// ----- second solution --------- 
-// const onDeleteTodo = (todoId) => {
-//   todoList.value = todoList.value.filter(todo => todo.id!== todoId);
+// const onDeleteTodo = (todoPos) => {
+//   todoList.value.splice(todoPos, 1);
+//   saveDataToLocalStorage();
 // }
+// ----- second solution --------- 
+const onDeleteTodo = (todoId) => {
+  todoList.value = todoList.value.filter(todo => todo.id!== todoId);
+}
+
 </script>
 
 <template>
