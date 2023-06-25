@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { uid } from 'uid'
 import CreateTodo from '../components/CreateTodo.vue';
 import TodoItem from '../components/TodoItem.vue';
@@ -17,7 +17,10 @@ watch(todoList, () => {
   saveDataToLocalStorage();
 }, {
   deep: true,
-})
+});
+const allTodosCompleted = computed(() => {
+  return todoList.value.every((todo) => todo.isCompleted);
+});
 const getDataFromLocalStorage = () => {
   const savedTodoList = JSON.parse(localStorage.getItem('todoList'));
   if(savedTodoList) {
@@ -76,9 +79,13 @@ const onDeleteTodo = (todoId) => {
     @delete-todo="onDeleteTodo"
      
     />
-    <div class="no-todo-msg" v-else>
+    <div class="todo-msg" v-else>
       <Icon icon="quill:user-sad" color="#41b883" width="40" class="icon" />
       <span>You have no tasks! Please add one...</span>
+    </div>
+    <div class="todo-msg" v-if="allTodosCompleted">
+      <Icon icon="solar:stars-line-broken" color="#41b883" width="72" />
+      <span class="msg">Congratulations!!! You are completed all tasks </span>
     </div>
   </main>
 </template>
@@ -97,12 +104,18 @@ main {
     text-align: center;
   }
 
-  .no-todo-msg {
+  .todo-msg {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 1rem auto;
     gap: 0.5rem;
+
+    span {
+      color: var(--secondary-color);
+      font-size: 1.5rem;
+      font-weight: bolder;
+    }
 
     &.icon {
       font-weight: 900;
