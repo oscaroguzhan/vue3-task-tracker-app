@@ -27,3 +27,13 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## key notes
+
+- reactivity ref vs reactive
+to assign a ref value that can take a primitive value such as string 
+reactive must be assign as object
+
+other difference how we access these value in script tags we need to use .value with reactive
+
+## it is not good practice to update value of prop directly on child component. we should do it on parent where the actual data is exist. On vue then we can emit a function and listen on parent component to update the value of the property that we are interested
