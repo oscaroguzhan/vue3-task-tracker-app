@@ -19,7 +19,7 @@ watch(todoList, () => {
   deep: true,
 });
 const allTodosCompleted = computed(() => {
-  return todoList.value.every((todo) => todo.isCompleted);
+    return todoList.value.every((todo) => todo.isCompleted);
 });
 const getDataFromLocalStorage = () => {
   const savedTodoList = JSON.parse(localStorage.getItem('todoList'));
@@ -29,7 +29,7 @@ const getDataFromLocalStorage = () => {
 };
 getDataFromLocalStorage();
 const saveDataToLocalStorage = () => {
-  // keep in mind with setItem method key and value parameter must to be string
+  // keep in mind with setItem method key and value parameter must to be string´
   localStorage.setItem('todoList', JSON.stringify(todoList.value))
 };
 
@@ -79,14 +79,17 @@ const onDeleteTodo = (todoId) => {
     @delete-todo="onDeleteTodo"
      
     />
-    <div class="todo-msg" v-else>
-      <Icon icon="quill:user-sad" color="#41b883" width="40" class="icon" />
-      <span>You have no tasks! Please add one...</span>
-    </div>
-    <div class="todo-msg" v-if="allTodosCompleted">
-      <Icon icon="solar:stars-line-broken" color="#41b883" width="72" />
-      <span class="msg">Congratulations!!! You are completed all tasks </span>
-    </div>
+    <div>
+    
+      <div class="todo-msg" v-if="allTodosCompleted && todoList.length > 0">
+        <Icon icon="solar:stars-line-broken" color="#41b883" width="72" />
+        <span class="msg">Congratulations!!! You are completed all tasks </span>
+      </div>
+      <div class="todo-msg" v-else-if="todoList.length === 0">
+        <Icon icon="quill:user-sad" color="#41b883" width="40" class="icon" />
+        <span>You have no tasks! Please add one...</span>
+      </div>
+      </div>
   </main>
 </template>
 
