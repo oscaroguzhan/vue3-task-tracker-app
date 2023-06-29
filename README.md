@@ -1,3 +1,8 @@
+Result ![Screenshot of app](src/assets/images/screenshot-vue3-task-tracker.png)
+
+[See Deploy version on netlify](https://vue3-task-tracker.netlify.app/)
+
+
 # vue3-task-tracker-app
 
 This template should help get you started developing with Vue 3 in Vite.
