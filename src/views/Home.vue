@@ -19,11 +19,11 @@ watch(todoList, () => {
   deep: true,
 });
 const allTodosCompleted = computed(() => {
-    return todoList.value.every((todo) => todo.isCompleted);
+  return todoList.value.every((todo) => todo.isCompleted);
 });
 const getDataFromLocalStorage = () => {
   const savedTodoList = JSON.parse(localStorage.getItem('todoList'));
-  if(savedTodoList) {
+  if (savedTodoList) {
     todoList.value = savedTodoList;
   }
 };
@@ -44,15 +44,15 @@ const createTodo = (todo) => {
 // keep in mind use value on script tag when you have a reactive data and pass index as parameter to pick the todo that we are interested
 const onToggleCompleted = (indexPos) => {
   todoList.value[indexPos].isCompleted = !todoList.value[indexPos].isCompleted;
- 
+
 };
 const onEditTodo = (indexPos) => {
-  todoList.value[indexPos].isEditing =!todoList.value[indexPos].isEditing;
-  
+  todoList.value[indexPos].isEditing = !todoList.value[indexPos].isEditing;
+
 };
 const onUpdateTodo = (updatedTodo, todoPos) => {
   todoList.value[todoPos].todo = updatedTodo;
-  
+
 };
 // const onDeleteTodo = (todoPos) => {
 //   todoList.value.splice(todoPos, 1);
@@ -60,7 +60,7 @@ const onUpdateTodo = (updatedTodo, todoPos) => {
 // }
 // ----- second solution --------- 
 const onDeleteTodo = (todoId) => {
-  todoList.value = todoList.value.filter(todo => todo.id!== todoId);
+  todoList.value = todoList.value.filter(todo => todo.id !== todoId);
 }
 
 </script>
@@ -69,18 +69,10 @@ const onDeleteTodo = (todoId) => {
   <main>
     <h1>Create a Task</h1>
     <CreateTodo @create-todo="createTodo" />
-    <TodoItem v-for="(todo, index) in todoList" 
-    :todo="todo" 
-    :index="index" 
-    v-if="todoList.length > 0"
-    @toggle-completed="onToggleCompleted"
-    @edit-todo="onEditTodo"
-    @update-todo="onUpdateTodo"
-    @delete-todo="onDeleteTodo"
-     
-    />
+    <TodoItem v-for="(todo, index) in todoList" :todo="todo" :index="index" v-if="todoList.length > 0"
+      @toggle-completed="onToggleCompleted" @edit-todo="onEditTodo" @update-todo="onUpdateTodo"
+      @delete-todo="onDeleteTodo" />
     <div>
-    
       <div class="todo-msg" v-if="allTodosCompleted && todoList.length > 0">
         <Icon icon="solar:stars-line-broken" color="#41b883" width="72" />
         <span class="msg">Congratulations!!! You are completed all tasks </span>
@@ -89,7 +81,7 @@ const onDeleteTodo = (todoId) => {
         <Icon icon="quill:user-sad" color="#41b883" width="40" class="icon" />
         <span>You have no tasks! Please add one...</span>
       </div>
-      </div>
+    </div>
   </main>
 </template>
 
